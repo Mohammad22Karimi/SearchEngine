@@ -11,7 +11,7 @@ using namespace std;
 class Map
 {
 public:
-    Map();
+    Map() : table(SIZE) {}
     void insert(const string &key, const string &value);
     string get(const string &key);
     ~Map();
