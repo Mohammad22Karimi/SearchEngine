@@ -3,6 +3,9 @@
 
 #pragma once
 
+#include <string>
+#include <vector>
+using namespace std;
 class TextProcessor
 {
 public:
@@ -10,7 +13,7 @@ public:
     ~TextProcessor();
 
 private:
-
+    vector<string> clearnText(const string &text);
 };
 
 #endif
