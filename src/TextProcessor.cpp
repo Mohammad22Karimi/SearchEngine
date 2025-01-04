@@ -9,7 +9,7 @@ TextProcessor::~TextProcessor()
 {
 }
 
-vector<string> TextProcessor::clearnText(const string &text)
+vector<string> TextProcessor::cleanText(const string &text)
 {
     string clearnText = text;
     clearnText.erase(remove_if(clearnText.begin(), clearnText.end(), ::ispunct), clearnText.end());

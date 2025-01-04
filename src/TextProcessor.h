@@ -11,9 +11,9 @@ class TextProcessor
 public:
     TextProcessor();
     ~TextProcessor();
+    vector<string> cleanText(const string &text);
 
 private:
-    vector<string> clearnText(const string &text);
 };
 
 #endif
