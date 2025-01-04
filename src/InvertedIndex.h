@@ -7,6 +7,9 @@
 #include <set>
 #include <sstream>
 #include "Map.h"
+#include <fstream>
+#include "TextProcessor.h"
+
 class InvertedIndex
 {
 public:
@@ -18,6 +21,7 @@ public:
 
 private:
     Map index;
+    vector<string> fileList;
     vector<string> tokenize(const string &text);
 };
 
