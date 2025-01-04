@@ -6,6 +6,7 @@
 #include <string>
 #include <vector>
 #include <utility>
+#include "InvertedIndex.h"
 using namespace std;
 class DocumentReader
 {

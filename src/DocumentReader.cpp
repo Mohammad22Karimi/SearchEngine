@@ -12,18 +12,23 @@ DocumentReader::DocumentReader()
 vector<pair<string, string>> DocumentReader::readDocument(const string &filePath)
 {
     vector<pair<string, string>> doc;
+    InvertedIndex data;
 
-    for (auto &entry : fs::directory_iterator(filePath))
+    for (const auto &entry : fs::directory_iterator(filePath))
     {
         if (entry.is_regular_file() && entry.path().extension() == ".txt")
         {
+            string filePath = entry.path().string();
             string fileName = entry.path().filename().string();
-            ifstream file(entry.path().string());
-            string content((istreambuf_iterator<char>(file)), istreambuf_iterator<char>());
-            doc.emplace_back(fileName, content);
+
+            data.addDocument(filePath);
+
+            // ذخیره نام فایل فقط (بدون ذخیره محتوا)
+            doc.emplace_back(fileName, "");
         }
     }
-    return vector<pair<string, string>>();
+
+    return doc;
 }
 
 DocumentReader::~DocumentReader()
