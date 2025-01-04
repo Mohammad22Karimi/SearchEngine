@@ -39,6 +39,30 @@ void InvertedIndex::addDocument(const string &doc)
     fileP.close();
 }
 
+vector<string> InvertedIndex::tokenize(const string &text)
+{
+    vector<string> tokens;
+    stringstream ss(text);
+    string word;
+
+    while (ss >> word)
+    {
+        tokens.push_back(word);
+    }
+    return tokens;
+}
+vector<string> InvertedIndex::search(const string &query)
+{ // باید لیست اسناد مرتبط با کلمه را بازگرداند.
+    vector<string> docList;
+    vector<string> words = tokenize(query);
+
+    for (auto &word : words)
+    {
+        docList.push_back(index.get(word));
+    }
+    return docList;
+}
+
 InvertedIndex::~InvertedIndex()
 {
 }
