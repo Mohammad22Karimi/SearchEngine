@@ -18,6 +18,8 @@ int main()
     {
         index.addDocument(doc.second, doc.first);
     }
+
+    QueryProcessor processor(index);
     while (true)
     {
         cout << "Enter search query (or type 'exit' to quit): ";
