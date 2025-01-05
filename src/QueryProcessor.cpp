@@ -2,7 +2,7 @@
 
 vector<string> QueryProcessor::processQuery(string &query)
 {
-    QueryParts qp = paresQuery(query);
+    QueryParts qp = parseQuery(query);
     set<string> mustContainDoc;
     set<string> mustExcludeDoc;
     set<string> mustIncludeDoc;
@@ -42,30 +42,23 @@ vector<string> QueryProcessor::processQuery(string &query)
         mustExcludeDoc.insert(temp.begin(), temp.end());
     }
 
+    // ترکیب نهایی: اشتراک mustContainDocs و mustIncludeDocs
     set<string> result;
-    auto it1 = mustContainDoc.begin();
-    auto it2 = mustIncludeDoc.begin();
-    while (it1 != mustContainDoc.end() && it2 != mustIncludeDoc.end())
+
+    if (!mustContainDoc.empty() && !mustIncludeDoc.empty())
     {
-        if (*it1 == *it2)
-        {
-            result.insert(*it1);
-            ++it1;
-            ++it2;
-        }
-        else if (*it1 < *it2)
-        {
-            ++it1;
-        }
-        else
-        {
-            ++it2;
-        }
+        set_intersection(mustContainDoc.begin(), mustContainDoc.end(),
+                         mustIncludeDoc.begin(), mustIncludeDoc.end(),
+                         inserter(result, result.begin()));
     }
-    // if (!mustIncludeDoc.empty())
-    // {
-    //     result.insert(mustIncludeDoc.begin(), mustIncludeDoc.end());
-    // }
+    else if (!mustContainDoc.empty())
+    {
+        result = mustContainDoc;
+    }
+    else if (!mustIncludeDoc.empty())
+    {
+        result = mustIncludeDoc;
+    }
     for (const string &doc : mustExcludeDoc)
     {
         result.erase(doc);
@@ -73,7 +66,7 @@ vector<string> QueryProcessor::processQuery(string &query)
     return vector<string>(result.begin(), result.end());
 }
 
-QueryProcessor::QueryParts QueryProcessor::paresQuery(string &query)
+QueryProcessor::QueryParts QueryProcessor::parseQuery(string &query)
 {
     QueryParts qp;
     stringstream queryStream(query);
