@@ -11,7 +11,7 @@ class QueryProcessor
 {
 public:
     QueryProcessor(InvertedIndex &ind) : index(ind) {}
-    vector<string> processQuery(string &query);
+    vector<string> processQuery(string &query, bool &exception);
 
 private:
     InvertedIndex index;

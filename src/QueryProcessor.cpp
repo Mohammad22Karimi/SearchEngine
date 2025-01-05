@@ -1,6 +1,6 @@
 #include "QueryProcessor.h"
-#include "ErrorManager.h"
-vector<string> QueryProcessor::processQuery(string &query)
+#include "ErrorManager.cpp"
+vector<string> QueryProcessor::processQuery(string &query, bool &exception)
 {
 
     ErrorManager errorManager;
@@ -77,16 +77,21 @@ vector<string> QueryProcessor::processQuery(string &query)
     catch (const invalid_argument &e)
     {
         cerr << e.what() << endl;
+        exception = true;
         return {};
     }
     catch (const logic_error &e)
     {
         cerr << e.what() << endl;
+        exception = true;
+
         return {};
     }
     catch (const std::exception &e)
     {
         cerr << e.what() << endl;
+        exception = true;
+
         return {};
     }
 }

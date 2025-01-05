@@ -32,8 +32,12 @@ int main()
 
         // جستجوی کوئری در ایندکس
         // vector<string> results = index.search(query);
-
-        vector<string> results = processor.processQuery(query);
+        bool exception = false;
+        vector<string> results = processor.processQuery(query, exception);
+        if (exception)
+        {
+            continue;
+        }
         if (results.empty())
         {
             cout << "No results found for \"" << query << "\"." << endl;
