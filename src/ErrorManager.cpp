@@ -8,10 +8,9 @@ void ErrorManager::validateInput(string &query)
     }
 }
 
-void ErrorManager::validateLogic(vector<string> &mustInclude, vector<string> &mustExclude)
+void ErrorManager::validateLogic(vector<string> &mustInclude, vector<string> &mustExclude, vector<string> &mustContain)
 {
-    if (hasConflict(mustInclude, mustExclude))
-        ;
+    if (hasConflict(mustInclude, mustExclude, mustContain))
     {
         throw logic_error("Logical Error");
     }
@@ -29,12 +28,13 @@ bool ErrorManager::hasInvalidChar(string &query)
     return false;
 }
 
-bool ErrorManager::hasConflict(vector<string> &mustInclude, vector<string> &mustExclude)
+bool ErrorManager::hasConflict(vector<string> &mustInclude, vector<string> &mustExclude, vector<string> &mustContain)
 {
     set<string> includes(mustInclude.begin(), mustInclude.end());
+    set<string> Contain(mustContain.begin(), mustContain.end());
     for (string &word : mustExclude)
     {
-        if (includes.find(word) != includes.end())
+        if ((includes.find(word) != includes.end()) || (Contain.find(word) != Contain.end()))
         {
             return true;
         }

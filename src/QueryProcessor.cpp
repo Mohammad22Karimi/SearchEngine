@@ -11,7 +11,7 @@ vector<string> QueryProcessor::processQuery(string &query)
 
         QueryParts qp = parseQuery(query);
 
-        errorManager.validateLogic(qp.mustInclude, qp.mustExclude);
+        errorManager.validateLogic(qp.mustInclude, qp.mustExclude, qp.mustContain);
         set<string> mustContainDoc;
         set<string> mustExcludeDoc;
         set<string> mustIncludeDoc;

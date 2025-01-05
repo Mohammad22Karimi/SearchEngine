@@ -12,11 +12,11 @@ class ErrorManager
 {
 public:
     void validateInput(string &query);
-    void validateLogic(vector<string> &mustInclude, vector<string> &mustExclude);
+    void validateLogic(vector<string> &mustInclude, vector<string> &mustExclude, vector<string> &mustContain);
 
 private:
     bool hasInvalidChar(string &query);
-    bool hasConflict(vector<string> &mustInclude, vector<string> &mustExclude);
+    bool hasConflict(vector<string> &mustInclude, vector<string> &mustExclude, vector<string> &mustContain);
 };
 
 #endif
