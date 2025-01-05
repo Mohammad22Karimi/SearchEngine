@@ -6,12 +6,13 @@ int Map::hashFunction(const string &key)
     size_t prime = 31;
     for (char c : key)
     {
-        hash = (hash * prime + c) % table.size();
+        hash = (hash * prime + c) % SIZE;
     }
     return hash;
 }
 void Map::rehash()
 {
+    // cout << "im in rehash funciton\n";
     int newSize = table.size() * 2; // اندازه جدید
     vector<list<pair<string, vector<string>>>> newTable(newSize);
 
