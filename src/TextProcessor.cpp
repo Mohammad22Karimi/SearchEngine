@@ -1,13 +1,6 @@
 #include "TextProcessor.h"
 #include <sstream>
 #include <algorithm>
-TextProcessor::TextProcessor()
-{
-}
-
-TextProcessor::~TextProcessor()
-{
-}
 
 vector<string> TextProcessor::cleanText(const string &text)
 {

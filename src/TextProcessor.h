@@ -9,8 +9,6 @@ using namespace std;
 class TextProcessor
 {
 public:
-    TextProcessor();
-    ~TextProcessor();
     vector<string> cleanText(const string &text);
 
 private:
