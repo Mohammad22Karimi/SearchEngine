@@ -4,11 +4,11 @@
 
 vector<string> TextProcessor::cleanText(const string &text)
 {
-    string clearnText = text;
-    clearnText.erase(remove_if(clearnText.begin(), clearnText.end(), ::ispunct), clearnText.end());
-    transform(clearnText.begin(), clearnText.end(), clearnText.begin(), ::tolower);
+    string cl = text;
+    cl.erase(remove_if(cl.begin(), cl.end(), ::ispunct), cl.end());
+    transform(cl.begin(), cl.end(), cl.begin(), ::tolower);
 
-    stringstream ss(clearnText);
+    stringstream ss(cl);
     string word;
     vector<string> words;
     while (ss >> word)
