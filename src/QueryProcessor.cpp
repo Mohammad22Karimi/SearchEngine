@@ -1,69 +1,94 @@
 #include "QueryProcessor.h"
-
+#include "ErrorManager.h"
 vector<string> QueryProcessor::processQuery(string &query)
 {
-    QueryParts qp = parseQuery(query);
-    set<string> mustContainDoc;
-    set<string> mustExcludeDoc;
-    set<string> mustIncludeDoc;
 
-    if (!qp.mustContain.empty())
+    ErrorManager errorManager;
+
+    try
     {
-        mustContainDoc = getDocuments(qp.mustContain[0]);
-        // یافتن اشتراک برای کلمات باقیمانده
-        for (size_t i = 1; i < qp.mustContain.size(); i++)
+        errorManager.validateInput(query);
+
+        QueryParts qp = parseQuery(query);
+
+        errorManager.validateLogic(qp.mustInclude, qp.mustExclude);
+        set<string> mustContainDoc;
+        set<string> mustExcludeDoc;
+        set<string> mustIncludeDoc;
+
+        if (!qp.mustContain.empty())
         {
-            set<string> docs = getDocuments(qp.mustContain[i]);
-            for (auto it = mustContainDoc.begin(); it != mustContainDoc.end();)
+            mustContainDoc = getDocuments(qp.mustContain[0]);
+            // یافتن اشتراک برای کلمات باقیمانده
+            for (size_t i = 1; i < qp.mustContain.size(); i++)
             {
-                if (docs.find(*it) == docs.end())
+                set<string> docs = getDocuments(qp.mustContain[i]);
+                for (auto it = mustContainDoc.begin(); it != mustContainDoc.end();)
                 {
-                    it = mustContainDoc.erase(it);
+                    if (docs.find(*it) == docs.end())
+                    {
+                        it = mustContainDoc.erase(it);
+                    }
+                    else
+                    {
+                        ++it;
+                    }
                 }
-                else
+                if (mustContainDoc.empty())
                 {
-                    ++it;
+                    break;
                 }
-            }
-            if (mustContainDoc.empty())
-            {
-                break;
             }
         }
-    }
-    for (string &word : qp.mustInclude)
-    {
-        set<string> temp = getDocuments(word);
-        mustIncludeDoc.insert(temp.begin(), temp.end());
-    }
-    for (string &word : qp.mustExclude)
-    {
-        set<string> temp = getDocuments(word);
-        mustExcludeDoc.insert(temp.begin(), temp.end());
-    }
+        for (string &word : qp.mustInclude)
+        {
+            set<string> temp = getDocuments(word);
+            mustIncludeDoc.insert(temp.begin(), temp.end());
+        }
+        for (string &word : qp.mustExclude)
+        {
+            set<string> temp = getDocuments(word);
+            mustExcludeDoc.insert(temp.begin(), temp.end());
+        }
 
-    // ترکیب نهایی: اشتراک mustContainDocs و mustIncludeDocs
-    set<string> result;
+        // ترکیب نهایی: اشتراک mustContainDocs و mustIncludeDocs
+        set<string> result;
 
-    if (!mustContainDoc.empty() && !mustIncludeDoc.empty())
-    {
-        set_intersection(mustContainDoc.begin(), mustContainDoc.end(),
-                         mustIncludeDoc.begin(), mustIncludeDoc.end(),
-                         inserter(result, result.begin()));
+        if (!mustContainDoc.empty() && !mustIncludeDoc.empty())
+        {
+            set_intersection(mustContainDoc.begin(), mustContainDoc.end(),
+                             mustIncludeDoc.begin(), mustIncludeDoc.end(),
+                             inserter(result, result.begin()));
+        }
+        else if (!mustContainDoc.empty())
+        {
+            result = mustContainDoc;
+        }
+        else if (!mustIncludeDoc.empty())
+        {
+            result = mustIncludeDoc;
+        }
+        for (const string &doc : mustExcludeDoc)
+        {
+            result.erase(doc);
+        }
+        return vector<string>(result.begin(), result.end());
     }
-    else if (!mustContainDoc.empty())
+    catch (const invalid_argument &e)
     {
-        result = mustContainDoc;
+        cerr << e.what() << endl;
+        return {};
     }
-    else if (!mustIncludeDoc.empty())
+    catch (const logic_error &e)
     {
-        result = mustIncludeDoc;
+        cerr << e.what() << endl;
+        return {};
     }
-    for (const string &doc : mustExcludeDoc)
+    catch (const std::exception &e)
     {
-        result.erase(doc);
+        cerr << e.what() << endl;
+        return {};
     }
-    return vector<string>(result.begin(), result.end());
 }
 
 QueryProcessor::QueryParts QueryProcessor::parseQuery(string &query)
