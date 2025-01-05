@@ -3,6 +3,7 @@
 #include "InvertedIndex.cpp"
 #include "TextProcessor.cpp"
 #include "Map.cpp"
+#include "QueryProcessor.cpp"
 using namespace std;
 int main()
 {
@@ -30,18 +31,19 @@ int main()
             break;
 
         // جستجوی کوئری در ایندکس
-        vector<string> results = index.search(query);
+        // vector<string> results = index.search(query);
 
+        vector<string> results = processor.processQuery(query);
         if (results.empty())
         {
             cout << "No results found for \"" << query << "\"." << endl;
         }
         else
         {
-            cout << "Results for \"" << query << "\":" << endl;
-            for (const string &doc : results)
+            cout << results.size() << endl;
+            for (const auto &doc : results)
             {
-                cout << "- " << doc << endl;
+                cout << doc << endl;
             }
         }
     }
