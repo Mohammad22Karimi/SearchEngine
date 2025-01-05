@@ -11,9 +11,7 @@ using namespace std;
 class DocumentReader
 {
 public:
-    DocumentReader();
     vector<pair<string, string>> readDocument(const string &filePath);
-    ~DocumentReader();
 
 private:
 };
