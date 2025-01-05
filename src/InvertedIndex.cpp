@@ -1,10 +1,6 @@
 #include "InvertedIndex.h"
 
-InvertedIndex::InvertedIndex()
-{
-}
-
-void InvertedIndex::addDocument(const string &doc)
+void InvertedIndex::addDocument(const string &doc, const string &value)
 {
     ifstream fileP(doc, ios::in);
 
@@ -32,7 +28,8 @@ void InvertedIndex::addDocument(const string &doc)
 
         for (string &word : words)
         {
-            index.insert(word, doc); // اضافه کردن به ایندکس
+
+            index.insert(word, value);
         }
     }
 
@@ -52,17 +49,14 @@ vector<string> InvertedIndex::tokenize(const string &text)
     return tokens;
 }
 vector<string> InvertedIndex::search(const string &query)
-{ // باید لیست اسناد مرتبط با کلمه را بازگرداند.
-    vector<string> docList;
+{ // باید لیست اسناد مرتبط با کلمه را بازگرداند
+    vector<string> results;
     vector<string> words = tokenize(query);
-
-    for (auto &word : words)
+    for (string &word : words)
     {
-        docList.push_back(index.get(word));
-    }
-    return docList;
-}
+        vector<string> docList = index.get(word);
 
-InvertedIndex::~InvertedIndex()
-{
+        results.insert(results.end(), docList.begin(), docList.end());
+    }
+    return results;
 }
