@@ -18,7 +18,7 @@ public:
     void rehash();
 
 private:
-    static const int SIZE = 100;
+    static const int SIZE = 1000;
     vector<list<pair<string, vector<string>>>> table;
     // int findKey(const string &key);
     int hashFunction(const string &key);
