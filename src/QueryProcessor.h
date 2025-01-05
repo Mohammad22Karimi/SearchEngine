@@ -24,7 +24,7 @@ private:
         vector<string> mustContain;
     };
 
-    QueryParts paresQuery(string &query);
+    QueryParts parseQuery(string &query);
     set<string> getDocuments(string &word);
 };
 
