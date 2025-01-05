@@ -9,8 +9,7 @@ vector<string> QueryProcessor::processQuery(string &query)
 
     if (!qp.mustContain.empty())
     {
-        mustContainDoc = set<string>(getDocuments(qp.mustContain[0]).begin(),
-                                     getDocuments(qp.mustContain[0]).end());
+        mustContainDoc = getDocuments(qp.mustContain[0]);
         // یافتن اشتراک برای کلمات باقیمانده
         for (size_t i = 1; i < qp.mustContain.size(); i++)
         {
@@ -43,12 +42,30 @@ vector<string> QueryProcessor::processQuery(string &query)
         mustExcludeDoc.insert(temp.begin(), temp.end());
     }
 
-    set<string> result = mustContainDoc;
-
-    if (!mustIncludeDoc.empty())
+    set<string> result;
+    auto it1 = mustContainDoc.begin();
+    auto it2 = mustIncludeDoc.begin();
+    while (it1 != mustContainDoc.end() && it2 != mustIncludeDoc.end())
     {
-        result.insert(mustIncludeDoc.begin(), mustIncludeDoc.end());
+        if (*it1 == *it2)
+        {
+            result.insert(*it1);
+            ++it1;
+            ++it2;
+        }
+        else if (*it1 < *it2)
+        {
+            ++it1;
+        }
+        else
+        {
+            ++it2;
+        }
     }
+    // if (!mustIncludeDoc.empty())
+    // {
+    //     result.insert(mustIncludeDoc.begin(), mustIncludeDoc.end());
+    // }
     for (const string &doc : mustExcludeDoc)
     {
         result.erase(doc);
