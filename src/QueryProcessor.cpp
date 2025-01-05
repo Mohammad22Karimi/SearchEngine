@@ -1,5 +1,13 @@
 #include "QueryProcessor.h"
 
+vector<string> QueryProcessor::processQuery(string &query)
+{
+    QueryParts qp = paresQuery(query);
+    set<string> mustContainDoc;
+    set<string> mustExcludeDoc;
+    set<string> mustIncludeDoc;
+}
+
 QueryProcessor::QueryParts QueryProcessor::paresQuery(string &query)
 {
     QueryParts qp;

@@ -5,11 +5,13 @@
 #include <vector>
 #include <string>
 #include "InvertedIndex.h"
+#include <set>
 using namespace std;
 class QueryProcessor
 {
 public:
     QueryProcessor(InvertedIndex &ind) : index(ind) {}
+    vector<string> processQuery(string &query);
 
 private:
     InvertedIndex index;
