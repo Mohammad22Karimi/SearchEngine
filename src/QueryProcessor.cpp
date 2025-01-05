@@ -31,3 +31,9 @@ QueryProcessor::QueryParts QueryProcessor::paresQuery(string &query)
     }
     return qp;
 }
+
+set<string> QueryProcessor::getDocuments(string &word)
+{
+    vector<string> documents = index.search(word);
+    return set<string>(documents.begin(), documents.end());
+}

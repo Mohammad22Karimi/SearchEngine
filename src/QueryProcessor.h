@@ -25,6 +25,7 @@ private:
     };
 
     QueryParts paresQuery(string &query);
+    set<string> getDocuments(string &word);
 };
 
 #endif
