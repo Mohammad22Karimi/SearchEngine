@@ -9,15 +9,13 @@
 #include "Map.h"
 #include <fstream>
 #include "TextProcessor.h"
+#include <algorithm>
 
 class InvertedIndex
 {
 public:
-    InvertedIndex();
-
-    void addDocument(const string &doc);
+    void addDocument(const string &doc, const string &value);
     vector<string> search(const string &query);
-    ~InvertedIndex();
 
 private:
     Map index;
