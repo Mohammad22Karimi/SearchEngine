@@ -25,7 +25,7 @@ int main()
         cout << "Enter search query (or type 'exit' to quit): ";
         string query;
         getline(cin, query);
-
+        transform(query.begin(), query.end(), query.begin(), ::tolower);
         if (query == "exit")
             break;
 
