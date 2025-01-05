@@ -11,16 +11,18 @@ using namespace std;
 class Map
 {
 public:
-    Map() : table(SIZE) {}
+    Map() : table(SIZE), currentSize(0) {}
     void insert(const string &key, const string &value);
-    string get(const string &key);
-    ~Map();
+    vector<string> get(const string &key);
+    // vector<string> keys(); // اعلام تابع keys
+    void rehash();
 
 private:
     static const int SIZE = 100;
-    vector<list<pair<string, string>>> table;
-
+    vector<list<pair<string, vector<string>>>> table;
+    // int findKey(const string &key);
     int hashFunction(const string &key);
+    int currentSize;
 };
 
 #endif
