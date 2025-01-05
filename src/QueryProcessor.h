@@ -10,7 +10,6 @@ class QueryProcessor
 {
 public:
     QueryProcessor(InvertedIndex &ind) : index(ind) {}
-    ~QueryProcessor();
 
 private:
     InvertedIndex index;
@@ -22,6 +21,8 @@ private:
         vector<string> mustExclude;
         vector<string> mustContain;
     };
+
+    QueryParts paresQuery(string &query);
 };
 
 #endif
