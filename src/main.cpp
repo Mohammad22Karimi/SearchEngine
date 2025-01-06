@@ -8,9 +8,13 @@ using namespace std;
 int main()
 {
     string folderPath;
-    cin >> folderPath;
+    cout << "Enter the folder path of the documents: ";
+    getline(cin, folderPath);
     //"C:/Users/Karimi/Desktop/search engine/ui-ds-02-project01-searchengine-Mohammad22Karimi-1/EnglishData"
-
+    int n;
+    cout << "Enter the number of queries :";
+    cin >> n;
+    cin.ignore();
     DocumentReader reader;
     vector<pair<string, string>> documents = reader.readDocument(folderPath);
 
@@ -19,19 +23,15 @@ int main()
     {
         index.addDocument(doc.second, doc.first);
     }
-
     QueryProcessor processor(index);
-    while (true)
+
+    while (n > 0, n--)
     {
-        cout << "Enter search query (or type 'exit' to quit): ";
+        cout << "Enter search query : ";
         string query;
         getline(cin, query);
         transform(query.begin(), query.end(), query.begin(), ::tolower);
-        if (query == "exit")
-            break;
 
-        // جستجوی کوئری در ایندکس
-        // vector<string> results = index.search(query);
         bool exception = false;
         vector<string> results = processor.processQuery(query, exception);
         if (exception)
